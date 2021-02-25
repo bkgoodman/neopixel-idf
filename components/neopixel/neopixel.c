@@ -409,10 +409,8 @@ void np_show(pixel_settings_t *px, rmt_channel_t channel)
 	RMT.conf_ch[RMTchannel].conf1.mem_rd_rst = 1;
 	RMT.conf_ch[RMTchannel].conf1.tx_start = 1;
 
-	// Wait for operation to finish
-	if (xSemaphoreTake(neopixel_sem, 0) == pdTRUE) {
-		xSemaphoreTake(neopixel_sem, portMAX_DELAY);
-	}
+	// Wait for operation to finish (isr gives semaphore)
+	xSemaphoreTake(neopixel_sem, portMAX_DELAY);
 	xSemaphoreGive(neopixel_sem);
 }
 
